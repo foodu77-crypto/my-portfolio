@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>Test</title>
+<style>
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background: #111;
+  }
+  button {
+    padding: 12px 24px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    background: #2f7a49;
+    color: #fff;
+    cursor: pointer;
+  }
+  button:hover {
+    background: #266139;
+  }
+  .cancel,
+  .confirm {
+    margin-left: 12px;
+  }
+</style>
+</head>
+<body>
+  <button onclick="alert('클릭되었습니다.')">클릭</button>
+  <button class="cancel" onclick="alert('취소되었습니다.')">취소</button>
+  <button class="confirm" onclick="alert('확인되었습니다.')">확인</button>
+</body>
+</html>
