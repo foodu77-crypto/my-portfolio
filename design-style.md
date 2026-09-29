@@ -34,6 +34,16 @@
 - Board 4개 글 → 본인이 남기고 싶은 기록
 - 이메일 주소(`hello@example.com`), GitHub 링크(`github.com/honggildong`) → 본인 계정
 
+## 색상 규칙 변경 (index.html)
+
+`index.html`은 style-b-colorful.html의 원래 색상(크림톤+골드)에서 아래와 같이 변경되었습니다. `style-b-colorful.md` / `style-b-colorful.html`은 원본 참고용으로 그대로 두고, 이 변경은 `index.html`에만 적용된 것입니다.
+
+- 포인트 색상 변수명 `--gold` → `--primary`로 통일, 값은 `#1E2F27`
+- 메인 배경색(`--cream` 변수)을 `#f3ece2`(크림) → `#1E2F27`로 변경 — 사실상 사이트 전체가 어두운 톤이 됨
+- 메인 배경이 어두워지면서 그 위에 있던 어두운 글자색(`--ink` 계열 본문, `--primary`를 쓰던 라벨·이름·섹션제목 텍스트, 기타 진한 회색 보조 텍스트)은 모두 흰색(`#fff`)으로 변경
+- `--primary`와 메인 배경이 같은 색(`#1E2F27`)이라 점 색상 텍스트는 더 이상 골드가 아니라 흰색으로 표시됨(포인트 색상 변수 자체는 버튼 hover 배경 등 "배경"으로 쓰이는 곳에는 그대로 유지)
+- 원래부터 어두운 배경이던 Works/Board/Footer(`--dark`)와 흰 배경의 Skill 카드는 대비를 위해 기존 색 그대로 유지
+
 ## 다음 단계
 
 1. 스타일 하나를 최종 선택
