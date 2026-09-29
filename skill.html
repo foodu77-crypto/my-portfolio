@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skill — Portfolio</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<style>
+:root{
+  --cream:#f3ece2; --ink:#171512; --gold:#b5893f; --gold-soft:#c9a76b;
+  --dark:#141210; --line:rgba(23,21,18,.14);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'Pretendard',-apple-system,'Malgun Gothic',sans-serif;
+  color:var(--ink);
+  background:var(--cream);
+  line-height:1.6;
+  word-break:keep-all;
+}
+.shell{max-width:1320px;margin:0 auto;padding:0 60px}
+
+/* ---------- skill (standalone section, 스타일 B 문서 기준) ---------- */
+.skill{background:var(--cream);padding:40px 0 120px}
+
+.skill-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  gap:40px;
+  padding-bottom:50px;
+  border-bottom:1px solid var(--line);
+  margin-bottom:60px;
+}
+.skill-head .eyebrow{
+  font-size:13px;
+  font-weight:800;
+  letter-spacing:.2em;
+  color:var(--gold);
+  margin-bottom:14px;
+}
+.skill-head .title{
+  font-size:clamp(30px,4vw,46px);
+  font-weight:800;
+  letter-spacing:-.01em;
+  line-height:1.15;
+}
+.skill-head .desc{
+  max-width:340px;
+  font-size:14px;
+  color:#4a453e;
+  padding-bottom:6px;
+}
+
+/* ---------- 3-column skill bars ---------- */
+.skill-cols{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:50px;
+}
+.skill-col .col-title{
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:.18em;
+  color:var(--gold-soft);
+  padding-bottom:14px;
+  border-bottom:1px solid var(--line);
+  margin-bottom:26px;
+}
+.bar-item{margin-bottom:24px}
+.bar-item:last-child{margin-bottom:0}
+.bar-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  margin-bottom:9px;
+}
+.bar-top .name{font-size:14px;font-weight:700;color:var(--ink)}
+.bar-top .pct{font-size:12px;font-weight:800;color:var(--gold)}
+.bar-track{
+  height:4px;
+  background:var(--line);
+  border-radius:2px;
+  overflow:hidden;
+}
+.bar-fill{
+  height:100%;
+  background:var(--gold);
+  border-radius:2px;
+}
+
+/* ---------- also using ---------- */
+.also-using{
+  margin-top:80px;
+  padding-top:36px;
+  border-top:1px solid var(--line);
+}
+.also-using .au-label{
+  font-size:13px;
+  font-weight:800;
+  letter-spacing:.2em;
+  color:var(--gold);
+  margin-bottom:18px;
+}
+.au-tags{display:flex;flex-wrap:wrap;gap:10px}
+.au-tags .tag{
+  background:var(--gold-soft);
+  color:var(--dark);
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:.04em;
+  padding:9px 16px;
+  border-radius:2px;
+}
+
+@media(max-width:960px){
+  .shell{padding:0 24px}
+  .skill-head{flex-direction:column;align-items:flex-start;gap:18px}
+  .skill-head .desc{max-width:100%}
+  .skill-cols{grid-template-columns:repeat(2,1fr);gap:36px 28px}
+}
+@media(max-width:640px){
+  .skill{padding:32px 0 64px}
+  .shell{padding:0 20px}
+  .skill-head{padding-bottom:32px;margin-bottom:40px}
+  .skill-cols{grid-template-columns:1fr;gap:34px}
+  .also-using{margin-top:50px;padding-top:28px}
+}
+</style>
+</head>
+<body>
+
+<section class="skill">
+  <div class="shell">
+
+    <div class="skill-head">
+      <div>
+        <div class="eyebrow">SKILL</div>
+        <h2 class="title">What I Do Well</h2>
+      </div>
+      <p class="desc">디자인부터 개발, 협업 방식까지 — 프로젝트를 진행하며 직접 익히고 다듬어온 역량입니다.</p>
+    </div>
+
+    <div class="skill-cols">
+      <div class="skill-col">
+        <div class="col-title">DESIGN</div>
+        <div class="bar-item">
+          <div class="bar-top"><span class="name">Figma</span><span class="pct">80%</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:80%"></div></div>
+        </div>
+        <div class="bar-item">
+          <div class="bar-top"><span class="name">UI / UX</span><span class="pct">75%</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:75%"></div></div>
+        </div>
+        <div class="bar-item">
+          <div class="bar-top"><span class="name">반응형 레이아웃</span><span class="pct">85%</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:85%"></div></div>
+        </div>
+      </div>
+
+      <div class="skill-col">
+        <div class="col-title">DEVELOPMENT</div>
+        <div class="bar-item">
+          <div class="bar-top"><span class="name">HTML / CSS</span><span class="pct">90%</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:90%"></div></div>
+        </div>
+        <div class="bar-item">
+          <div class="bar-top"><span class="name">JavaScript</span><span class="pct">75%</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:75%"></div></div>
+        </div>
+        <div class="bar-item">
+          <div class="bar-top"><span class="name">Supabase</span><span class="pct">65%</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:65%"></div></div>
+        </div>
+      </div>
+
+      <div class="skill-col">
+        <div class="col-title">WORKFLOW</div>
+        <div class="bar-item">
+          <div class="bar-top"><span class="name">Git / GitHub</span><span class="pct">80%</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:80%"></div></div>
+        </div>
+        <div class="bar-item">
+          <div class="bar-top"><span class="name">Claude Code</span><span class="pct">85%</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:85%"></div></div>
+        </div>
+        <div class="bar-item">
+          <div class="bar-top"><span class="name">협업 커뮤니케이션</span><span class="pct">75%</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:75%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="also-using">
+      <div class="au-label">ALSO USING</div>
+      <div class="au-tags">
+        <span class="tag">VS Code</span>
+        <span class="tag">Notion</span>
+        <span class="tag">Slack</span>
+        <span class="tag">Zoom</span>
+        <span class="tag">Google Analytics</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+</body>
+</html>
