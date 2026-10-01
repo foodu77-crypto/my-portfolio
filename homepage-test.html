@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JKPOKER — Train Your Poker Edge</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<style>
+:root{
+  --bg:#05100a;
+  --bg-soft:#0b1a12;
+  --card:rgba(255,255,255,.04);
+  --primary:#1E2F27;
+  --primary-light:#2a4537;
+  --btn:#2f7a49;
+  --btn-hover:#38925a;
+  --neg:#8a6fd9;
+  --text:#ffffff;
+  --text-muted:#9fb6a9;
+  --line:rgba(255,255,255,.1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Pretendard',-apple-system,'Malgun Gothic',sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(circle at 15% -10%, rgba(42,69,55,.55), transparent 55%),
+    radial-gradient(circle at 85% 15%, rgba(47,122,73,.22), transparent 50%),
+    radial-gradient(circle at 50% 100%, rgba(30,47,39,.6), transparent 60%),
+    var(--bg);
+  line-height:1.6;
+  word-break:keep-all;
+  overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+.shell{max-width:1200px;margin:0 auto;padding:0 24px}
+section{scroll-margin-top:84px}
+
+/* ---------- demo tag ---------- */
+.demo-tag{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:800;letter-spacing:.12em;color:#0c1912;background:var(--btn);padding:4px 10px;border-radius:999px}
+.demo-tag::before{content:'';width:5px;height:5px;border-radius:50%;background:#0c1912}
+.demo-note{font-size:11.5px;color:var(--text-muted);margin-top:10px}
+
+/* ---------- ambient glow decorations ---------- */
+.glow{position:absolute;border-radius:50%;filter:blur(90px);pointer-events:none;z-index:0;opacity:.5}
+.glow-1{width:520px;height:520px;background:var(--primary-light);top:-180px;left:-120px;animation:float1 14s ease-in-out infinite}
+.glow-2{width:420px;height:420px;background:var(--btn);top:140px;right:-140px;opacity:.18;animation:float2 16s ease-in-out infinite}
+@keyframes float1{0%,100%{transform:translate(0,0)}50%{transform:translate(30px,40px)}}
+@keyframes float2{0%,100%{transform:translate(0,0)}50%{transform:translate(-25px,-30px)}}
+
+/* ---------- nav ---------- */
+header{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);background:rgba(5,16,10,.72);border-bottom:1px solid var(--line)}
+nav{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;max-width:1200px;margin:0 auto}
+.logo{font-weight:900;font-size:20px;letter-spacing:.04em}
+.logo span{color:var(--btn)}
+.nav-links{display:flex;gap:30px;list-style:none}
+.nav-links a{font-size:12.5px;font-weight:700;letter-spacing:.1em;color:var(--text-muted);position:relative;padding-bottom:4px;transition:color .2s ease}
+.nav-links a::after{content:'';position:absolute;left:0;bottom:0;width:0;height:2px;background:var(--btn);transition:width .25s ease}
+.nav-links a:hover{color:#fff}
+.nav-links a:hover::after{width:100%}
+.nav-actions{display:flex;align-items:center;gap:16px}
+.nav-cta{display:inline-block}
+.burger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:0}
+.burger span{width:22px;height:2px;background:#fff;border-radius:2px;transition:transform .25s ease,opacity .25s ease}
+
+.mobile-panel{display:none;flex-direction:column;gap:4px;padding:10px 24px 22px;border-bottom:1px solid var(--line);background:rgba(5,16,10,.95)}
+.mobile-panel a{padding:12px 4px;font-size:14px;font-weight:700;letter-spacing:.08em;color:var(--text-muted);border-bottom:1px solid var(--line)}
+.mobile-panel a:last-child{border-bottom:0}
+body.nav-open .mobile-panel{display:flex}
+body.nav-open .burger span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+body.nav-open .burger span:nth-child(2){opacity:0}
+body.nav-open .burger span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+/* ---------- buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 30px;border-radius:999px;font-weight:800;font-size:14px;letter-spacing:.02em;border:1px solid transparent;cursor:pointer;transition:transform .2s ease,background .2s ease,box-shadow .2s ease,border-color .2s ease}
+.btn-primary{background:var(--btn);color:#fff}
+.btn-primary:hover{background:var(--btn-hover);transform:translateY(-3px);box-shadow:0 14px 30px rgba(47,122,73,.4)}
+.btn-outline{background:transparent;color:#fff;border-color:rgba(255,255,255,.25)}
+.btn-outline:hover{border-color:var(--btn);background:rgba(47,122,73,.12);transform:translateY(-3px)}
+.btn-sm{padding:10px 20px;font-size:12px}
+
+/* ---------- hero ---------- */
+.hero{position:relative;padding:110px 0 60px;text-align:center;overflow:hidden}
+.eyebrow{display:inline-block;font-size:12px;font-weight:800;letter-spacing:.24em;color:var(--text-muted);padding:8px 18px;border:1px solid var(--line);border-radius:999px;margin-bottom:28px;position:relative;z-index:1}
+.hero h1{position:relative;z-index:1;font-size:clamp(40px,7vw,86px);font-weight:900;letter-spacing:-.02em;line-height:1.05;margin-bottom:26px}
+.hero h1 .accent{color:var(--btn)}
+.hero p.lead{position:relative;z-index:1;max-width:560px;margin:0 auto 42px;font-size:16px;color:var(--text-muted)}
+.hero-actions{position:relative;z-index:1;display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-bottom:56px}
+.stat-row{position:relative;z-index:1;display:flex;justify-content:center;gap:48px;flex-wrap:wrap;padding-top:40px;border-top:1px solid var(--line);max-width:680px;margin:0 auto}
+.stat{text-align:center}
+.stat .num{font-size:28px;font-weight:900;color:#fff}
+.stat .lbl{font-size:12px;color:var(--text-muted);letter-spacing:.06em;margin-top:4px}
+
+/* ---------- hero software preview window ---------- */
+.preview-wrap{position:relative;z-index:1;max-width:980px;margin:70px auto 0}
+.browser{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--bg-soft);box-shadow:0 40px 90px rgba(0,0,0,.55)}
+.browser-bar{display:flex;align-items:center;gap:8px;padding:12px 16px;background:rgba(255,255,255,.03);border-bottom:1px solid var(--line)}
+.browser-bar .dot{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.18)}
+.browser-bar .url{margin-left:14px;font-size:11px;color:var(--text-muted);background:rgba(255,255,255,.04);padding:4px 14px;border-radius:999px}
+.preview-body{display:grid;grid-template-columns:1.1fr 1fr;gap:0}
+.preview-side{padding:26px;border-right:1px solid var(--line);text-align:left}
+.preview-main{padding:26px;text-align:left}
+
+/* ---------- reveal animation ---------- */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.reveal.in-view{opacity:1;transform:translateY(0)}
+
+/* ---------- section heads ---------- */
+.sec-head{max-width:620px;margin:0 0 50px}
+.sec-head.center{margin:0 auto 56px;text-align:center}
+.sec-head .tag{font-size:12px;font-weight:800;letter-spacing:.2em;color:var(--btn);margin-bottom:14px}
+.sec-head h2{font-size:clamp(26px,3.5vw,40px);font-weight:900;letter-spacing:-.01em;margin-bottom:14px}
+.sec-head p{color:var(--text-muted);font-size:14.5px}
+
+/* ---------- detail sections (Study / Practice / Analyze) ---------- */
+.detail{padding:90px 0}
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.detail-grid.reverse .detail-text{order:2}
+.detail-grid.reverse .detail-visual{order:1}
+.detail-text .step{font-size:11.5px;font-weight:800;letter-spacing:.16em;color:var(--text-muted);margin-bottom:12px}
+.detail-text h3{font-size:clamp(24px,3vw,32px);font-weight:900;margin-bottom:16px;letter-spacing:-.01em}
+.detail-text p{color:var(--text-muted);font-size:14.5px;margin-bottom:20px}
+.detail-text ul{list-style:none;margin-bottom:24px}
+.detail-text li{font-size:13.5px;color:#dce9e1;padding:9px 0 9px 24px;position:relative;border-top:1px solid var(--line)}
+.detail-text li:first-child{border-top:0}
+.detail-text li::before{content:'';position:absolute;left:0;top:17px;width:8px;height:8px;border-radius:2px;background:var(--btn)}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;position:relative}
+.panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.panel-head .title{font-size:12px;font-weight:800;letter-spacing:.08em;color:var(--text-muted)}
+
+/* ---------- hand range grid (Study demo) ---------- */
+.range-grid{display:grid;grid-template-columns:repeat(13,1fr);gap:2px;max-width:420px;margin:0 auto;overflow-x:auto}
+.range-cell{aspect-ratio:1;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:8.5px;font-weight:700;color:#eafff2;border:1px solid rgba(255,255,255,.05)}
+.range-legend{display:flex;align-items:center;gap:10px;margin-top:18px;font-size:11px;color:var(--text-muted)}
+.range-bar{flex:1;height:8px;border-radius:999px;background:linear-gradient(90deg, rgba(47,122,73,.08), var(--btn))}
+
+/* ---------- poker table (Practice demo) ---------- */
+.table-wrap{position:relative;max-width:440px;margin:0 auto;padding:30px 10px}
+.poker-table{position:relative;width:100%;aspect-ratio:4/2.9;background:radial-gradient(ellipse at center, var(--primary-light), var(--primary) 75%);border-radius:50%;border:6px solid rgba(255,255,255,.06);box-shadow:inset 0 0 40px rgba(0,0,0,.4)}
+.seat{position:absolute;transform:translate(-50%,-50%);text-align:center}
+.seat .avatar{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid var(--line);margin:0 auto 4px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800}
+.seat .stk{font-size:9px;color:var(--text-muted)}
+.seat.hero .avatar{background:var(--btn);color:#fff}
+.table-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center}
+.table-center .pot{font-size:12px;font-weight:800;color:#fff;background:rgba(0,0,0,.35);padding:5px 12px;border-radius:999px;margin-bottom:8px;display:inline-block}
+.cards-row{display:flex;gap:4px;justify-content:center}
+.card-mini{width:20px;height:28px;background:#f4f1ea;border-radius:3px;font-size:9px;font-weight:800;display:flex;align-items:center;justify-content:center;color:#1a1a1a}
+.card-mini.red{color:#c24b4b}
+.hero-hand{display:flex;justify-content:center;gap:16px;align-items:center;margin-top:18px}
+.hero-hand .cards-row .card-mini{width:30px;height:42px;font-size:13px}
+.action-row{display:flex;gap:10px;justify-content:center;margin-top:18px;flex-wrap:wrap}
+.action-row button{font-family:inherit}
+
+/* ---------- toast ---------- */
+.toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);background:#0c1912;border:1px solid var(--line);color:#fff;font-size:13px;font-weight:700;padding:12px 20px;border-radius:999px;opacity:0;pointer-events:none;transition:opacity .3s ease,transform .3s ease;z-index:100;box-shadow:0 14px 30px rgba(0,0,0,.5)}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* ---------- analyze charts ---------- */
+.chart-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;margin-bottom:18px}
+.chart-card h4{font-size:12px;font-weight:800;letter-spacing:.06em;color:var(--text-muted);margin-bottom:18px}
+.bar-chart{display:flex;align-items:flex-end;gap:18px;height:150px;position:relative;padding-top:10px}
+.bar-chart .zero-line{position:absolute;left:0;right:0;top:75px;border-top:1px dashed var(--line)}
+.bar-col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;position:relative}
+.bar-fill{width:100%;max-width:46px;border-radius:5px;position:relative}
+.bar-fill.pos{background:var(--btn);align-self:flex-end}
+.bar-fill.neg{background:var(--neg)}
+.bar-val{font-size:11.5px;font-weight:800;margin-bottom:6px}
+.bar-val.pos{color:var(--btn)}
+.bar-val.neg{color:var(--neg)}
+.bar-lbl{font-size:11px;color:var(--text-muted);margin-top:8px;letter-spacing:.04em}
+.bar-col.above{justify-content:flex-end}
+.line-chart{width:100%;height:150px}
+.line-chart .grid-line{stroke:var(--line);stroke-width:1}
+.line-chart .area{fill:url(#lineGrad)}
+.line-chart .line{fill:none;stroke:var(--btn);stroke-width:2.5;stroke-linecap:round}
+.line-chart circle{fill:var(--bg-soft);stroke:var(--btn);stroke-width:2.5}
+.line-axis{display:flex;justify-content:space-between;font-size:10.5px;color:var(--text-muted);margin-top:8px}
+
+/* ---------- pricing ---------- */
+.pricing{padding:90px 0}
+.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.price-card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:34px 28px;display:flex;flex-direction:column;transition:transform .3s ease,border-color .3s ease}
+.price-card:hover{transform:translateY(-8px);border-color:rgba(47,122,73,.5)}
+.price-card.highlight{border-color:var(--btn);background:linear-gradient(180deg,rgba(47,122,73,.16),rgba(255,255,255,.02));position:relative}
+.price-badge{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--btn);color:#fff;font-size:11px;font-weight:800;letter-spacing:.06em;padding:5px 14px;border-radius:999px}
+.price-card .plan{font-size:13px;font-weight:800;letter-spacing:.1em;color:var(--text-muted);margin-bottom:14px}
+.price-card .amount{font-size:36px;font-weight:900;margin-bottom:4px}
+.price-card .amount span{font-size:13px;font-weight:700;color:var(--text-muted)}
+.price-card .desc{font-size:12.5px;color:var(--text-muted);margin-bottom:24px}
+.price-card ul{list-style:none;margin-bottom:28px;flex:1}
+.price-card li{font-size:13px;color:#dce9e1;padding:8px 0 8px 22px;position:relative}
+.price-card li::before{content:'✓';position:absolute;left:0;color:var(--btn);font-weight:800}
+
+/* ---------- faq ---------- */
+.faq{padding:90px 0}
+.faq-list{max-width:760px;margin:0 auto}
+.faq-item{border-bottom:1px solid var(--line)}
+.faq-item summary{list-style:none;cursor:pointer;padding:22px 4px;font-size:15px;font-weight:700;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-item summary::after{content:'+';font-size:20px;color:var(--text-muted);transition:transform .25s ease}
+.faq-item[open] summary::after{transform:rotate(45deg)}
+.faq-item p{padding:0 4px 22px;color:var(--text-muted);font-size:13.5px;max-width:620px}
+
+/* ---------- cta band ---------- */
+.cta-band{padding:80px 0;text-align:center}
+.cta-box{position:relative;border-radius:28px;padding:70px 40px;border:1px solid var(--line);background:linear-gradient(135deg,rgba(47,122,73,.18),rgba(30,47,39,.4));overflow:hidden}
+.cta-box h2{font-size:clamp(24px,3.4vw,36px);font-weight:900;margin-bottom:16px}
+.cta-box p{color:var(--text-muted);margin-bottom:34px;font-size:14px}
+
+/* ---------- footer ---------- */
+footer{padding:70px 0 40px;border-top:1px solid var(--line)}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;margin-bottom:50px}
+.foot-brand p{font-size:13px;color:var(--text-muted);margin-top:14px;max-width:260px}
+.foot-col h5{font-size:11px;font-weight:800;letter-spacing:.12em;color:var(--text-muted);margin-bottom:16px}
+.foot-col a{display:block;font-size:13px;color:#dce9e1;margin-bottom:10px}
+.foot-col a:hover{color:var(--btn)}
+.foot-bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;padding-top:28px;border-top:1px solid var(--line)}
+.foot-bottom .fine{font-size:11.5px;color:var(--text-muted)}
+
+@media(max-width:900px){
+  .nav-links,.nav-actions .nav-cta{display:none}
+  .burger{display:flex}
+  .detail-grid{grid-template-columns:1fr;gap:34px}
+  .detail-grid.reverse .detail-text{order:1}
+  .detail-grid.reverse .detail-visual{order:2}
+  .preview-body{grid-template-columns:1fr}
+  .preview-side{border-right:0;border-bottom:1px solid var(--line)}
+  .price-grid{grid-template-columns:1fr}
+  .foot-grid{grid-template-columns:1fr 1fr;gap:30px}
+  .hero{padding:90px 0 50px}
+  .stat-row{gap:28px}
+}
+@media(max-width:480px){
+  .shell{padding:0 18px}
+  .hero-actions{flex-direction:column;align-items:center}
+  .btn{width:100%;max-width:280px}
+  .stat-row{gap:20px}
+  .foot-grid{grid-template-columns:1fr;gap:28px}
+  .bar-chart{gap:10px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <div class="logo">JK<span>POKER</span></div>
+    <ul class="nav-links">
+      <li><a href="study.html">STUDY</a></li>
+      <li><a href="practice.html">PRACTICE</a></li>
+      <li><a href="#analyze">ANALYZE</a></li>
+      <li><a href="#pricing">PRICING</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="#pricing" class="btn btn-primary btn-sm nav-cta">무료로 시작하기</a>
+      <button class="burger" aria-label="메뉴 열기" onclick="document.body.classList.toggle('nav-open')">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+  <div class="mobile-panel">
+    <a href="study.html">STUDY</a>
+    <a href="practice.html">PRACTICE</a>
+    <a href="#analyze">ANALYZE</a>
+    <a href="#pricing">PRICING</a>
+    <a href="#faq">FAQ</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="glow glow-1"></div>
+  <div class="glow glow-2"></div>
+  <div class="shell">
+    <div class="eyebrow">POKER STRATEGY SOFTWARE</div>
+    <h1>TRAIN YOUR<br><span class="accent">POKER EDGE</span></h1>
+    <p class="lead">JKPOKER는 실전 데이터와 전략 분석을 바탕으로 포커 실력을 체계적으로 끌어올리는 학습 플랫폼입니다.</p>
+    <div class="hero-actions">
+      <a href="#pricing" class="btn btn-primary">무료로 시작하기</a>
+      <a href="#study" class="btn btn-outline">기능 둘러보기</a>
+    </div>
+    <div class="stat-row">
+      <div class="stat"><div class="num">500+</div><div class="lbl">학습 시나리오</div></div>
+      <div class="stat"><div class="num">3단계</div><div class="lbl">학습 · 연습 · 분석</div></div>
+      <div class="stat"><div class="num">24/7</div><div class="lbl">언제든 학습 가능</div></div>
+    </div>
+
+    <div class="preview-wrap reveal">
+      <div class="browser">
+        <div class="browser-bar">
+          <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+          <span class="url">app.jkpoker.com/dashboard</span>
+          <span class="demo-tag" style="margin-left:auto">DEMO</span>
+        </div>
+        <div class="preview-body">
+          <div class="preview-side">
+            <div class="panel-head"><span class="title">RANGE EXPLORER</span></div>
+            <div id="previewRange" class="range-grid" style="max-width:260px"></div>
+          </div>
+          <div class="preview-main">
+            <div class="panel-head"><span class="title">SESSION ACCURACY</span></div>
+            <svg class="line-chart" viewBox="0 0 300 140" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="lineGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#2f7a49" stop-opacity=".45"/>
+                  <stop offset="100%" stop-color="#2f7a49" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <line class="grid-line" x1="0" y1="30" x2="300" y2="30"></line>
+              <line class="grid-line" x1="0" y1="80" x2="300" y2="80"></line>
+              <line class="grid-line" x1="0" y1="130" x2="300" y2="130"></line>
+              <polygon class="area" points="10,95 60,78 110,88 160,60 210,48 260,30 290,30 290,130 10,130"></polygon>
+              <polyline class="line" points="10,95 60,78 110,88 160,60 210,48 260,30"></polyline>
+              <circle cx="10" cy="95" r="4"><title>1회차 62%</title></circle>
+              <circle cx="260" cy="30" r="4"><title>6회차 88%</title></circle>
+            </svg>
+            <div class="line-axis"><span>1회차 · 62%</span><span>6회차 · 88%</span></div>
+          </div>
+        </div>
+      </div>
+      <p class="demo-note" style="text-align:center">※ 위 화면은 UI 데모이며 실제 계산된 데이터가 아닙니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========== STUDY ========== -->
+<section class="detail" id="study">
+  <div class="shell">
+    <div class="detail-grid">
+      <div class="detail-text reveal">
+        <div class="step">01 · STUDY</div>
+        <h3>핸드 레인지를 눈으로 이해하세요</h3>
+        <p>포지션과 상황별 기본 전략을 13×13 핸드 레인지 차트로 시각화해 직관적으로 학습할 수 있습니다.</p>
+        <ul>
+          <li>포지션별 오프닝 레인지 학습</li>
+          <li>레이즈 · 콜 빈도를 색상 농도로 표현</li>
+          <li>핸드별 설명과 기본 개념 노트 제공</li>
+        </ul>
+        <span class="demo-tag">DEMO</span>
+        <p class="demo-note">예시 레인지 차트이며, 실제 GTO 솔버 연산 결과가 아닙니다.</p>
+      </div>
+      <div class="detail-visual reveal">
+        <div class="panel">
+          <div class="panel-head">
+            <span class="title">BTN OPENING RANGE</span>
+            <span class="demo-tag">DEMO</span>
+          </div>
+          <div id="rangeGrid" class="range-grid"></div>
+          <div class="range-legend">
+            <span>낮은 빈도</span>
+            <div class="range-bar"></div>
+            <span>높은 빈도 (레이즈)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== PRACTICE ========== -->
+<section class="detail" id="practice">
+  <div class="shell">
+    <div class="detail-grid reverse">
+      <div class="detail-text reveal">
+        <div class="step">02 · PRACTICE</div>
+        <h3>실전과 같은 상황에서 연습하세요</h3>
+        <p>다양한 포지션과 팟 상황을 직접 선택해 의사결정을 반복 연습하고 감각을 체득합니다.</p>
+        <ul>
+          <li>6-max 테이블 기반 시나리오 연습</li>
+          <li>포지션 · 스택 · 팟 상황을 자유롭게 설정</li>
+          <li>폴드 · 콜 · 레이즈 선택 후 즉시 피드백 (예정)</li>
+        </ul>
+        <span class="demo-tag">DEMO</span>
+        <p class="demo-note">버튼을 눌러보세요 — 아직 실제 판정 기능은 연결되어 있지 않습니다.</p>
+      </div>
+      <div class="detail-visual reveal">
+        <div class="panel">
+          <div class="panel-head">
+            <span class="title">BTN vs BB · 3BET POT</span>
+            <span class="demo-tag">DEMO</span>
+          </div>
+          <div class="table-wrap">
+            <div class="poker-table">
+              <div class="seat" style="top:4%;left:50%"><div class="avatar">UTG</div><div class="stk">100bb</div></div>
+              <div class="seat" style="top:22%;left:88%"><div class="avatar">MP</div><div class="stk">100bb</div></div>
+              <div class="seat" style="top:70%;left:88%"><div class="avatar">CO</div><div class="stk">100bb</div></div>
+              <div class="seat hero" style="top:94%;left:50%"><div class="avatar">BTN</div><div class="stk">102bb</div></div>
+              <div class="seat" style="top:70%;left:12%"><div class="avatar">SB</div><div class="stk">98bb</div></div>
+              <div class="seat" style="top:22%;left:12%"><div class="avatar">BB</div><div class="stk">96bb</div></div>
+              <div class="table-center">
+                <div class="pot">POT 24.5bb</div>
+                <div class="cards-row">
+                  <div class="card-mini">K♠</div>
+                  <div class="card-mini red">7♦</div>
+                  <div class="card-mini">2♣</div>
+                </div>
+              </div>
+            </div>
+            <div class="hero-hand">
+              <div class="cards-row">
+                <div class="card-mini">A♠</div>
+                <div class="card-mini">K♣</div>
+              </div>
+              <span style="font-size:11px;color:var(--text-muted);letter-spacing:.06em">YOUR HAND</span>
+            </div>
+            <div class="action-row">
+              <button class="btn btn-outline btn-sm" onclick="showToast()">FOLD</button>
+              <button class="btn btn-outline btn-sm" onclick="showToast()">CALL</button>
+              <button class="btn btn-primary btn-sm" onclick="showToast()">RAISE</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== ANALYZE ========== -->
+<section class="detail" id="analyze">
+  <div class="shell">
+    <div class="detail-grid">
+      <div class="detail-text reveal">
+        <div class="step">03 · ANALYZE</div>
+        <h3>플레이를 분석하고 약점을 찾으세요</h3>
+        <p>연습한 핸드를 액션별 기대값과 정확도 추이로 돌아보며 다음 학습 방향을 설정합니다.</p>
+        <ul>
+          <li>액션별 기대값(EV) 비교</li>
+          <li>세션별 정확도 변화 추이</li>
+          <li>약점 포지션 자동 하이라이트 (예정)</li>
+        </ul>
+        <span class="demo-tag">DEMO</span>
+        <p class="demo-note">예시 수치이며, 실제 사용자의 플레이 데이터가 아닙니다.</p>
+      </div>
+      <div class="detail-visual reveal">
+        <div class="chart-card">
+          <h4>ACTION별 기대값 (EV)</h4>
+          <div class="bar-chart">
+            <div class="zero-line"></div>
+            <div class="bar-col">
+              <div class="bar-val pos">+2.4bb</div>
+              <div class="bar-fill pos" style="height:60px"></div>
+              <div class="bar-lbl">RAISE</div>
+            </div>
+            <div class="bar-col">
+              <div class="bar-val pos">+0.8bb</div>
+              <div class="bar-fill pos" style="height:20px"></div>
+              <div class="bar-lbl">CALL</div>
+            </div>
+            <div class="bar-col">
+              <div class="bar-fill neg" style="height:32px;align-self:flex-start;margin-top:75px"></div>
+              <div class="bar-lbl" style="position:absolute;bottom:-20px">FOLD</div>
+              <div class="bar-val neg" style="position:absolute;top:112px">-1.1bb</div>
+            </div>
+          </div>
+        </div>
+        <div class="chart-card">
+          <h4>세션별 정확도 추이</h4>
+          <svg class="line-chart" viewBox="0 0 300 140" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="lineGrad2" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#2f7a49" stop-opacity=".45"/>
+                <stop offset="100%" stop-color="#2f7a49" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <line class="grid-line" x1="0" y1="30" x2="300" y2="30"></line>
+            <line class="grid-line" x1="0" y1="80" x2="300" y2="80"></line>
+            <line class="grid-line" x1="0" y1="130" x2="300" y2="130"></line>
+            <polygon fill="url(#lineGrad2)" points="10,95 60,78 110,88 160,60 210,48 260,30 290,30 290,130 10,130"></polygon>
+            <polyline class="line" points="10,95 60,78 110,88 160,60 210,48 260,30"></polyline>
+            <circle cx="10" cy="95" r="5"><title>1회차 · 정확도 62%</title></circle>
+            <circle cx="60" cy="78" r="5"><title>2회차 · 정확도 69%</title></circle>
+            <circle cx="110" cy="88" r="5"><title>3회차 · 정확도 65%</title></circle>
+            <circle cx="160" cy="60" r="5"><title>4회차 · 정확도 76%</title></circle>
+            <circle cx="210" cy="48" r="5"><title>5회차 · 정확도 81%</title></circle>
+            <circle cx="260" cy="30" r="5"><title>6회차 · 정확도 88%</title></circle>
+          </svg>
+          <div class="line-axis"><span>1회차 · 62%</span><span>6회차 · 88%</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== PRICING ========== -->
+<section class="pricing" id="pricing">
+  <div class="shell">
+    <div class="sec-head center reveal">
+      <div class="tag">PRICING</div>
+      <h2>필요에 맞는 플랜을 선택하세요</h2>
+      <p>아래 가격은 서비스 방향성을 보여주기 위한 예시입니다. 실제 결제 연동 전입니다.</p>
+    </div>
+    <div class="price-grid">
+      <div class="price-card reveal">
+        <div class="plan">FREE</div>
+        <div class="amount">₩0<span>/월</span></div>
+        <div class="desc">가볍게 둘러보고 싶은 분께</div>
+        <ul>
+          <li>기본 핸드 레인지 열람</li>
+          <li>연습 시나리오 3개</li>
+          <li>세션 기록 7일 보관</li>
+        </ul>
+        <a href="#" class="btn btn-outline" onclick="showToast(event)">무료로 시작</a>
+      </div>
+      <div class="price-card highlight reveal">
+        <div class="price-badge">인기</div>
+        <div class="plan">PRO</div>
+        <div class="amount">₩19,900<span>/월</span></div>
+        <div class="desc">본격적으로 실력을 키우고 싶은 분께</div>
+        <ul>
+          <li>전체 핸드 레인지 라이브러리</li>
+          <li>무제한 연습 시나리오</li>
+          <li>액션별 EV · 정확도 분석</li>
+          <li>세션 기록 무제한 보관</li>
+        </ul>
+        <a href="#" class="btn btn-primary" onclick="showToast(event)">PRO 시작하기</a>
+      </div>
+      <div class="price-card reveal">
+        <div class="plan">TEAM</div>
+        <div class="amount">₩49,900<span>/월</span></div>
+        <div class="desc">스터디 그룹 · 코칭용으로</div>
+        <ul>
+          <li>PRO 전체 기능</li>
+          <li>최대 5인 계정 공유</li>
+          <li>팀 학습 리포트 (예정)</li>
+        </ul>
+        <a href="#" class="btn btn-outline" onclick="showToast(event)">문의하기</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FAQ ========== -->
+<section class="faq" id="faq">
+  <div class="shell">
+    <div class="sec-head center reveal">
+      <div class="tag">FAQ</div>
+      <h2>자주 묻는 질문</h2>
+    </div>
+    <div class="faq-list reveal">
+      <details class="faq-item">
+        <summary>지금 바로 실제 GTO 전략 계산을 사용할 수 있나요?</summary>
+        <p>아니요, 현재 공개된 화면은 디자인과 사용자 흐름을 보여주는 데모 버전입니다. 실제 GTO 솔버 연산 기능은 아직 연결되어 있지 않으며, 추후 개발 단계에서 추가될 예정입니다.</p>
+      </details>
+      <details class="faq-item">
+        <summary>핸드 레인지, 테이블, 분석 차트의 수치는 실제 데이터인가요?</summary>
+        <p>아니요, 현재 보이는 레인지 색상·테이블 상황·EV·정확도 수치는 서비스 방향을 보여주기 위한 예시 데이터입니다.</p>
+      </details>
+      <details class="faq-item">
+        <summary>모바일에서도 사용할 수 있나요?</summary>
+        <p>네, 현재 홈페이지는 PC와 모바일 화면 모두를 고려해 반응형으로 제작되었습니다.</p>
+      </details>
+      <details class="faq-item">
+        <summary>가격 정책은 확정된 내용인가요?</summary>
+        <p>아니요, 위 가격은 서비스 포지셔닝을 보여주기 위한 예시이며 실제 결제 기능은 아직 연동되지 않았습니다.</p>
+      </details>
+      <details class="faq-item">
+        <summary>어떤 게임 종목을 지원할 예정인가요?</summary>
+        <p>초기에는 노리밋 홀덤을 중심으로 기획하고 있으며, 이후 다른 종목 지원 여부는 추후 검토할 예정입니다.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="shell">
+    <div class="cta-box reveal">
+      <h2>지금 JKPOKER와 함께<br>실력을 키워보세요</h2>
+      <p>가입 없이도 둘러볼 수 있습니다. 준비되면 바로 시작하세요.</p>
+      <a href="#pricing" class="btn btn-primary">무료로 시작하기</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="shell">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <div class="logo">JK<span style="color:var(--btn)">POKER</span></div>
+        <p>데이터 기반 포커 학습 플랫폼. 현재 홈페이지는 서비스 방향을 보여주는 데모 버전입니다.</p>
+      </div>
+      <div class="foot-col">
+        <h5>PRODUCT</h5>
+        <a href="study.html">Study</a>
+        <a href="practice.html">Practice</a>
+        <a href="#analyze">Analyze</a>
+        <a href="#pricing">Pricing</a>
+      </div>
+      <div class="foot-col">
+        <h5>COMPANY</h5>
+        <a href="#">소개</a>
+        <a href="#">문의하기</a>
+      </div>
+      <div class="foot-col">
+        <h5>SUPPORT</h5>
+        <a href="#faq">FAQ</a>
+        <a href="#">이용약관</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span class="fine">© 2026 JKPOKER. All rights reserved.</span>
+      <span class="fine">본 페이지는 개발 중인 데모 홈페이지입니다.</span>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast">🔸 데모 화면입니다 — 실제 기능은 준비 중입니다</div>
+
+<script>
+  // reveal on scroll
+  var items = document.querySelectorAll('.reveal');
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){ e.target.classList.add('in-view'); }
+    });
+  }, {threshold:.15});
+  items.forEach(function(el){ io.observe(el); });
+
+  document.querySelectorAll('.mobile-panel a').forEach(function(a){
+    a.addEventListener('click', function(){ document.body.classList.remove('nav-open'); });
+  });
+
+  // toast for demo-only buttons
+  function showToast(e){
+    if(e && e.preventDefault) e.preventDefault();
+    var t = document.getElementById('toast');
+    t.classList.add('show');
+    clearTimeout(window._toastTimer);
+    window._toastTimer = setTimeout(function(){ t.classList.remove('show'); }, 2200);
+  }
+
+  // hand range grid generator (illustrative only — not real GTO data)
+  var RANKS = ['A','K','Q','J','T','9','8','7','6','5','4','3','2'];
+  function buildRangeGrid(targetId, cellPx){
+    var el = document.getElementById(targetId);
+    if(!el) return;
+    var frag = document.createDocumentFragment();
+    for(var i=0;i<13;i++){
+      for(var j=0;j<13;j++){
+        var label, cell = document.createElement('div');
+        cell.className = 'range-cell';
+        if(i===j){ label = RANKS[i]+RANKS[j]; }
+        else if(i<j){ label = RANKS[i]+RANKS[j]+'s'; }
+        else { label = RANKS[j]+RANKS[i]+'o'; }
+        var score = Math.max(0, (24 - i - j) / 24);
+        cell.style.background = 'rgba(47,122,73,' + (0.08 + score*0.85).toFixed(2) + ')';
+        cell.textContent = label;
+        if(cellPx){ cell.style.fontSize = '7px'; }
+        frag.appendChild(cell);
+      }
+    }
+    el.appendChild(frag);
+  }
+  buildRangeGrid('rangeGrid');
+  buildRangeGrid('previewRange', true);
+</script>
+
+</body>
+</html>

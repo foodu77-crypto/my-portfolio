@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Study — JKPOKER</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<style>
+:root{
+  --bg:#05100a;
+  --bg-soft:#0b1a12;
+  --card:rgba(255,255,255,.04);
+  --primary:#1E2F27;
+  --primary-light:#2a4537;
+  --btn:#2f7a49;
+  --btn-hover:#38925a;
+  --neg:#8a6fd9;
+  --warn:#c9a23d;
+  --text:#ffffff;
+  --text-muted:#9fb6a9;
+  --line:rgba(255,255,255,.1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Pretendard',-apple-system,'Malgun Gothic',sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(circle at 15% -10%, rgba(42,69,55,.5), transparent 55%),
+    radial-gradient(circle at 85% 10%, rgba(47,122,73,.18), transparent 50%),
+    var(--bg);
+  line-height:1.6;
+  word-break:keep-all;
+}
+a{color:inherit;text-decoration:none}
+.shell{max-width:1240px;margin:0 auto;padding:0 24px}
+
+/* ---------- nav ---------- */
+header{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);background:rgba(5,16,10,.72);border-bottom:1px solid var(--line)}
+nav{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;max-width:1240px;margin:0 auto}
+.logo{font-weight:900;font-size:20px;letter-spacing:.04em}
+.logo span{color:var(--btn)}
+.nav-links{display:flex;gap:30px;list-style:none}
+.nav-links a{font-size:12.5px;font-weight:700;letter-spacing:.1em;color:var(--text-muted);position:relative;padding-bottom:4px}
+.nav-links a.active{color:#fff}
+.nav-links a.active::after{content:'';position:absolute;left:0;bottom:0;width:100%;height:2px;background:var(--btn)}
+.nav-links a:hover{color:#fff}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;color:var(--text-muted)}
+.back-link:hover{color:#fff}
+
+/* ---------- buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 18px;border-radius:999px;font-weight:800;font-size:12.5px;letter-spacing:.02em;border:1px solid rgba(255,255,255,.18);cursor:pointer;background:transparent;color:#fff;transition:transform .15s ease,background .15s ease,border-color .15s ease,box-shadow .15s ease,opacity .15s ease;font-family:inherit}
+.btn:hover{transform:translateY(-2px);border-color:var(--btn)}
+.btn.active{background:var(--btn);border-color:var(--btn);box-shadow:0 10px 22px rgba(47,122,73,.35)}
+.btn:active{transform:translateY(0) scale(.97)}
+.btn:disabled,.btn.disabled{opacity:.3;cursor:not-allowed;pointer-events:none}
+.btn-ghost{border-color:transparent;color:var(--text-muted);padding:10px 16px;font-size:12px}
+.btn-ghost:hover{color:#fff;border-color:var(--line)}
+
+/* ---------- page head ---------- */
+.page-head{padding:56px 0 30px}
+.page-head .tag{font-size:12px;font-weight:800;letter-spacing:.2em;color:var(--btn);margin-bottom:14px}
+.page-head h1{font-size:clamp(26px,4vw,38px);font-weight:900;letter-spacing:-.01em;margin-bottom:12px}
+.page-head p{color:var(--text-muted);font-size:14px;max-width:640px}
+
+/* ---------- controls ---------- */
+.controls{display:flex;flex-direction:column;gap:16px;margin-bottom:28px}
+.control-row{display:flex;align-items:flex-start;gap:14px;flex-wrap:wrap}
+.control-row .label{font-size:11px;font-weight:800;letter-spacing:.12em;color:var(--text-muted);width:110px;flex-shrink:0;padding-top:9px}
+.chip-group{display:flex;gap:8px;flex-wrap:wrap}
+.hint{font-size:11.5px;color:var(--warn);margin-top:4px}
+
+.search-row{position:relative;max-width:260px}
+.search-row input{width:100%;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 14px;color:#fff;font-family:inherit;font-size:13px}
+.search-row input:focus{outline:none;border-color:var(--btn)}
+.search-msg{font-size:11.5px;margin-top:6px;color:var(--text-muted)}
+.search-msg.err{color:#e2857a}
+.search-msg.ok{color:var(--btn-hover)}
+
+/* ---------- data notice ---------- */
+.notice{display:flex;align-items:center;gap:10px;background:rgba(201,162,61,.1);border:1px solid rgba(201,162,61,.35);color:#e9cf8e;font-size:12.5px;font-weight:600;padding:12px 16px;border-radius:10px;margin-bottom:30px}
+.notice .dot{width:7px;height:7px;border-radius:50%;background:var(--warn);flex-shrink:0}
+
+/* ---------- study layout ---------- */
+.study-grid{display:grid;grid-template-columns:1fr 340px;gap:30px;align-items:start;padding-bottom:90px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:26px}
+.panel + .panel{margin-top:20px}
+.panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:8px}
+.panel-head .title{font-size:12px;font-weight:800;letter-spacing:.08em;color:var(--text-muted)}
+
+/* ---------- range grid ---------- */
+.range-wrap{overflow-x:auto}
+.range-grid{display:grid;grid-template-columns:repeat(13,minmax(36px,1fr));gap:3px;min-width:540px}
+.range-cell{aspect-ratio:1;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:700;color:#eafff2;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.06);cursor:pointer;transition:transform .15s ease,border-color .15s ease,background .15s ease}
+.range-cell:hover{border-color:rgba(47,122,73,.6);transform:translateY(-2px)}
+.range-cell.selected{background:var(--btn);border-color:var(--btn-hover);color:#fff;transform:translateY(-2px);box-shadow:0 10px 22px rgba(47,122,73,.4)}
+.range-cell.pair{background:rgba(255,255,255,.06)}
+.range-cell.flash{animation:flash .6s ease}
+@keyframes flash{0%{box-shadow:0 0 0 0 rgba(47,122,73,.7)}100%{box-shadow:0 0 0 14px rgba(47,122,73,0)}}
+
+.legend-row{display:flex;gap:22px;flex-wrap:wrap;margin-top:22px;padding-top:20px;border-top:1px solid var(--line)}
+.legend-item{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--text-muted)}
+.legend-swatch{width:14px;height:14px;border-radius:4px}
+.legend-swatch.raise{background:var(--btn)}
+.legend-swatch.call{background:var(--warn)}
+.legend-swatch.fold{background:rgba(255,255,255,.18)}
+.legend-note{font-size:11.5px;color:var(--text-muted);margin-top:10px}
+
+/* ---------- info panel ---------- */
+.info-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--line);font-size:13px;gap:10px}
+.info-row:last-of-type{border-bottom:0}
+.info-row .k{color:var(--text-muted);flex-shrink:0}
+.info-row .v{font-weight:800;text-align:right}
+.info-row .v.muted{color:var(--text-muted);font-weight:600}
+
+.combo-list{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.combo-chip{display:flex;gap:3px;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:6px;padding:5px 8px;font-size:11px;font-weight:700}
+.combo-chip .red{color:#e2857a}
+.combo-chip .blk{color:#fff}
+
+.strategy-box{margin-top:18px;padding:16px;border-radius:12px;background:rgba(255,255,255,.03);border:1px dashed var(--line);text-align:center}
+.strategy-box .state{font-size:13px;font-weight:800;color:var(--warn);margin-bottom:4px}
+.strategy-box .sub{font-size:11.5px;color:var(--text-muted)}
+.clear-btn{width:100%;margin-top:18px;padding:12px}
+
+footer{padding:40px 0;border-top:1px solid var(--line);text-align:center}
+footer .fine{font-size:11.5px;color:var(--text-muted)}
+
+@media(max-width:960px){
+  .study-grid{grid-template-columns:1fr}
+}
+@media(max-width:560px){
+  .control-row{flex-direction:column;gap:8px}
+  .control-row .label{width:auto;padding-top:0}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <a href="homepage-test.html" class="logo">JK<span>POKER</span></a>
+    <ul class="nav-links">
+      <li><a href="study.html" class="active">STUDY</a></li>
+      <li><a href="practice.html">PRACTICE</a></li>
+      <li><a href="homepage-test.html#analyze">ANALYZE</a></li>
+      <li><a href="homepage-test.html#pricing">PRICING</a></li>
+      <li><a href="homepage-test.html#faq">FAQ</a></li>
+    </ul>
+    <a href="homepage-test.html" class="back-link">← 홈으로</a>
+  </nav>
+</header>
+
+<div class="shell">
+  <div class="page-head">
+    <div class="tag">01 · STUDY</div>
+    <h1>프리플랍 핸드 레인지 탐색기</h1>
+    <p>테이블 형태, 상황, 포지션, 유효 스택, 상대 포지션을 선택하고 169개 스타팅 핸드 중 하나를 확인하세요.</p>
+  </div>
+
+  <div class="controls">
+    <div class="control-row">
+      <span class="label">TABLE</span>
+      <div class="chip-group" id="tableGroup">
+        <button class="btn chip active" data-table="6max">6-Max</button>
+        <button class="btn chip" data-table="9max">9-Max</button>
+      </div>
+    </div>
+    <div class="control-row">
+      <span class="label">SITUATION</span>
+      <div class="chip-group" id="situationGroup">
+        <button class="btn chip active" data-situation="RFI">RFI</button>
+        <button class="btn chip" data-situation="FACING_OPEN">Facing Open</button>
+        <button class="btn chip" data-situation="3BET">3-Bet</button>
+        <button class="btn chip" data-situation="4BET">4-Bet</button>
+      </div>
+    </div>
+    <div class="control-row">
+      <span class="label">POSITION</span>
+      <div class="chip-group" id="positionGroup"></div>
+    </div>
+    <div class="control-row">
+      <span class="label">OPPONENT</span>
+      <div style="flex:1">
+        <div class="chip-group" id="opponentGroup"></div>
+        <div class="hint" id="opponentHint" style="display:none"></div>
+      </div>
+    </div>
+    <div class="control-row">
+      <span class="label">STACK</span>
+      <div class="chip-group" id="stackGroup">
+        <button class="btn chip" data-stack="20bb">20bb</button>
+        <button class="btn chip" data-stack="40bb">40bb</button>
+        <button class="btn chip" data-stack="60bb">60bb</button>
+        <button class="btn chip active" data-stack="100bb">100bb</button>
+        <button class="btn chip" data-stack="150bb">150bb</button>
+      </div>
+    </div>
+    <div class="control-row">
+      <span class="label">SEARCH</span>
+      <div class="search-row">
+        <input type="text" id="handSearch" placeholder="예: AKs, 77, AQo">
+        <div class="search-msg" id="searchMsg"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="notice">
+    <span class="dot"></span>
+    외부에서 검증된 전략 데이터가 아직 연결되지 않았습니다. 핸드별 Raise/Call/Fold 빈도와 EV는 현재 표시되지 않으며, 모두 "데이터 준비 중"으로 안내됩니다.
+  </div>
+
+  <div class="study-grid">
+    <div class="panel">
+      <div class="panel-head">
+        <span class="title">169 STARTING HANDS</span>
+        <span id="gridStatus" style="font-size:11.5px;color:var(--text-muted)">핸드를 선택해주세요</span>
+      </div>
+      <div class="range-wrap">
+        <div class="range-grid" id="rangeGrid"></div>
+      </div>
+      <div class="legend-row">
+        <div class="legend-item"><span class="legend-swatch raise"></span>RAISE</div>
+        <div class="legend-item"><span class="legend-swatch call"></span>CALL</div>
+        <div class="legend-item"><span class="legend-swatch fold"></span>FOLD</div>
+      </div>
+      <p class="legend-note">※ 위 범례는 추후 전략 데이터 연결 시 사용할 색상 기준이며, 현재 차트에는 적용되어 있지 않습니다.</p>
+    </div>
+
+    <div>
+      <div class="panel">
+        <div class="panel-head"><span class="title">SITUATION</span></div>
+        <div class="info-row"><span class="k">테이블</span><span class="v" id="infoTable">6-Max</span></div>
+        <div class="info-row"><span class="k">상황</span><span class="v" id="infoSituation">RFI</span></div>
+        <div class="info-row"><span class="k">포지션</span><span class="v muted" id="infoPosition">선택 안 됨</span></div>
+        <div class="info-row"><span class="k">상대 포지션</span><span class="v muted" id="infoOpponent">해당 없음</span></div>
+        <div class="info-row"><span class="k">유효 스택</span><span class="v" id="infoStack">100bb</span></div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head"><span class="title">SELECTED HAND</span></div>
+        <div class="info-row"><span class="k">핸드</span><span class="v muted" id="infoHand">선택 안 됨</span></div>
+        <div class="info-row"><span class="k">조합 수</span><span class="v muted" id="infoCombo">—</span></div>
+        <div class="combo-list" id="comboList"></div>
+
+        <div class="strategy-box">
+          <div class="state">데이터 준비 중</div>
+          <div class="sub" id="strategyNote">검증된 GTO 전략 데이터가 연결되면 이곳에 Raise / Call / Fold 빈도와 EV가 표시됩니다.</div>
+        </div>
+
+        <button class="btn clear-btn" id="clearBtn">선택 초기화</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="shell">
+    <span class="fine">© 2026 JKPOKER. STUDY 기능은 현재 UI 프로토타입이며 실제 전략 데이터는 연결되어 있지 않습니다.</span>
+  </div>
+</footer>
+
+<script>
+  var RANKS = ['A','K','Q','J','T','9','8','7','6','5','4','3','2'];
+  var SUITS = ['s','h','d','c'];
+  var SUIT_SYM = {s:'♠',h:'♥',d:'♦',c:'♣'};
+  var TABLE_POSITIONS = {
+    '6max': ['UTG','HJ','CO','BTN','SB','BB'],
+    '9max': ['UTG','UTG1','UTG2','LJ','HJ','CO','BTN','SB','BB']
+  };
+
+  var state = {
+    table: '6max',
+    situation: 'RFI',
+    position: null,
+    opponent: null,
+    stack: '100bb',
+    cell: null
+  };
+
+  /* ---------- grid ---------- */
+  function buildGrid(){
+    var el = document.getElementById('rangeGrid');
+    el.innerHTML = '';
+    var frag = document.createDocumentFragment();
+    for(var i=0;i<13;i++){
+      for(var j=0;j<13;j++){
+        var cell = document.createElement('div');
+        cell.className = 'range-cell';
+        var label, combos, type;
+        if(i===j){ label = RANKS[i]+RANKS[j]; combos = 6; type='pair'; cell.classList.add('pair'); }
+        else if(i<j){ label = RANKS[i]+RANKS[j]+'s'; combos = 4; type='suited'; }
+        else { label = RANKS[j]+RANKS[i]+'o'; combos = 12; type='offsuit'; }
+        cell.textContent = label;
+        cell.dataset.label = label;
+        cell.dataset.combos = combos;
+        cell.dataset.type = type;
+        cell.addEventListener('click', function(){ selectCell(this); });
+        frag.appendChild(cell);
+      }
+    }
+    el.appendChild(frag);
+  }
+
+  function findCellByLabel(label){
+    return document.querySelector('.range-cell[data-label="'+label+'"]');
+  }
+
+  function selectCell(cell, fromSearch){
+    if(state.cell === cell && !fromSearch){
+      cell.classList.remove('selected');
+      state.cell = null;
+    } else {
+      if(state.cell) state.cell.classList.remove('selected');
+      cell.classList.add('selected');
+      state.cell = cell;
+      if(fromSearch){
+        cell.classList.remove('flash');
+        void cell.offsetWidth;
+        cell.classList.add('flash');
+        cell.scrollIntoView({block:'nearest', inline:'center'});
+      }
+    }
+    renderInfo();
+  }
+
+  /* ---------- real card combinations for a hand label ---------- */
+  function comboCards(label){
+    var r1, r2, type;
+    if(label.length === 2){ r1 = label[0]; r2 = label[1]; type = 'pair'; }
+    else { r1 = label[0]; r2 = label[1]; type = (label[2]==='s') ? 'suited' : 'offsuit'; }
+    var list = [];
+    if(type === 'pair'){
+      for(var x=0;x<4;x++){
+        for(var y=x+1;y<4;y++){
+          list.push([{r:r1,s:SUITS[x]},{r:r2,s:SUITS[y]}]);
+        }
+      }
+    } else if(type === 'suited'){
+      list = SUITS.map(function(s){ return [{r:r1,s:s},{r:r2,s:s}]; });
+    } else {
+      list = [];
+      SUITS.forEach(function(s1){
+        SUITS.forEach(function(s2){
+          if(s1 !== s2) list.push([{r:r1,s:s1},{r:r2,s:s2}]);
+        });
+      });
+    }
+    return list;
+  }
+
+  function renderCombos(label){
+    var wrap = document.getElementById('comboList');
+    wrap.innerHTML = '';
+    if(!label) return;
+    var combos = comboCards(label);
+    combos.forEach(function(pair){
+      var chip = document.createElement('div');
+      chip.className = 'combo-chip';
+      pair.forEach(function(c){
+        var span = document.createElement('span');
+        span.className = (c.s === 'h' || c.s === 'd') ? 'red' : 'blk';
+        span.textContent = c.r + SUIT_SYM[c.s];
+        chip.appendChild(span);
+      });
+      wrap.appendChild(chip);
+    });
+  }
+
+  /* ---------- position / opponent logic ---------- */
+  function buildPositionGroup(){
+    var order = TABLE_POSITIONS[state.table];
+    var group = document.getElementById('positionGroup');
+    group.innerHTML = '';
+    order.forEach(function(pos){
+      var b = document.createElement('button');
+      b.className = 'btn chip';
+      b.dataset.position = pos;
+      b.textContent = pos;
+      b.addEventListener('click', function(){
+        if(state.position === pos){
+          state.position = null;
+          b.classList.remove('active');
+        } else {
+          group.querySelectorAll('button').forEach(function(x){ x.classList.remove('active'); });
+          state.position = pos;
+          b.classList.add('active');
+        }
+        state.opponent = null;
+        buildOpponentGroup();
+        renderInfo();
+      });
+      group.appendChild(b);
+    });
+  }
+
+  function buildOpponentGroup(){
+    var group = document.getElementById('opponentGroup');
+    var hint = document.getElementById('opponentHint');
+    group.innerHTML = '';
+
+    if(state.situation === 'RFI'){
+      hint.style.display = 'block';
+      hint.textContent = 'RFI(최초 레이즈) 상황에는 아직 행동한 상대가 없습니다.';
+      return;
+    }
+    if(!state.position){
+      hint.style.display = 'block';
+      hint.textContent = '먼저 포지션을 선택해주세요.';
+      return;
+    }
+
+    var order = TABLE_POSITIONS[state.table];
+    var heroIdx = order.indexOf(state.position);
+    var valid;
+    if(state.situation === 'FACING_OPEN' || state.situation === '4BET'){
+      // opponent must have acted before hero (opened the pot first)
+      valid = order.slice(0, heroIdx);
+    } else {
+      // 3BET: opponent reraises hero's open, so acts after hero
+      valid = order.slice(heroIdx + 1);
+    }
+
+    if(valid.length === 0){
+      hint.style.display = 'block';
+      hint.textContent = state.position + ' 포지션에서는 이 상황에 해당하는 상대 포지션이 없습니다.';
+      return;
+    }
+    hint.style.display = 'none';
+
+    order.forEach(function(pos){
+      var b = document.createElement('button');
+      b.className = 'btn chip';
+      b.dataset.opponent = pos;
+      b.textContent = pos;
+      var isValid = valid.indexOf(pos) !== -1;
+      if(!isValid){ b.disabled = true; }
+      if(state.opponent === pos) b.classList.add('active');
+      b.addEventListener('click', function(){
+        if(state.opponent === pos){
+          state.opponent = null;
+          b.classList.remove('active');
+        } else {
+          group.querySelectorAll('button').forEach(function(x){ x.classList.remove('active'); });
+          state.opponent = pos;
+          b.classList.add('active');
+        }
+        renderInfo();
+      });
+      group.appendChild(b);
+    });
+  }
+
+  /* ---------- generic chip group (table / situation / stack) ---------- */
+  function setGroup(groupId, dataKey, stateKey, onChange){
+    var group = document.getElementById(groupId);
+    group.querySelectorAll('button').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var val = this.dataset[dataKey];
+        group.querySelectorAll('button').forEach(function(b){ b.classList.remove('active'); });
+        state[stateKey] = val;
+        this.classList.add('active');
+        if(onChange) onChange();
+        renderInfo();
+      });
+    });
+  }
+
+  /* ---------- search ---------- */
+  function normalizeSearch(raw){
+    var t = raw.trim().toUpperCase();
+    if(t.length < 2) return null;
+    var r1 = t[0], r2 = t[1];
+    if(RANKS.indexOf(r1) === -1 || RANKS.indexOf(r2) === -1) return null;
+    if(r1 === r2){ return r1+r2; }
+    var suitChar = t.length >= 3 ? t[2] : null;
+    var i = RANKS.indexOf(r1), j = RANKS.indexOf(r2);
+    var hi = Math.min(i,j), lo = Math.max(i,j);
+    var base = RANKS[hi] + RANKS[lo];
+    if(suitChar === 'S') return base + 's';
+    if(suitChar === 'O') return base + 'o';
+    return base + 'o'; // default to offsuit label search target; suited also matched separately below
+  }
+
+  document.getElementById('handSearch').addEventListener('input', function(){
+    var msg = document.getElementById('searchMsg');
+    var raw = this.value;
+    if(!raw.trim()){ msg.textContent = ''; msg.className = 'search-msg'; return; }
+    var t = raw.trim().toUpperCase();
+    var r1 = t[0], r2 = t[1];
+    if(!r1 || !r2 || RANKS.indexOf(r1) === -1 || RANKS.indexOf(r2) === -1){
+      msg.textContent = '올바른 핸드 표기를 입력해주세요 (예: AKs, 77, AQo)';
+      msg.className = 'search-msg err';
+      return;
+    }
+    var label;
+    if(r1 === r2){
+      label = r1+r2;
+    } else {
+      var i = RANKS.indexOf(r1), j = RANKS.indexOf(r2);
+      var hi = Math.min(i,j), lo = Math.max(i,j);
+      var suitChar = t.length >= 3 ? t[2] : 'O';
+      label = RANKS[hi] + RANKS[lo] + (suitChar === 'S' ? 's' : 'o');
+    }
+    var cell = findCellByLabel(label);
+    if(cell){
+      msg.textContent = label + ' 찾음 — 차트에서 강조 표시됩니다.';
+      msg.className = 'search-msg ok';
+      selectCell(cell, true);
+    } else {
+      msg.textContent = '일치하는 핸드를 찾을 수 없습니다.';
+      msg.className = 'search-msg err';
+    }
+  });
+
+  /* ---------- render ---------- */
+  function renderInfo(){
+    document.getElementById('infoTable').textContent = state.table === '6max' ? '6-Max' : '9-Max';
+    var sitLabel = {RFI:'RFI', FACING_OPEN:'Facing Open', '3BET':'3-Bet', '4BET':'4-Bet'}[state.situation];
+    document.getElementById('infoSituation').textContent = sitLabel;
+    document.getElementById('infoPosition').textContent = state.position || '선택 안 됨';
+    document.getElementById('infoPosition').className = state.position ? 'v' : 'v muted';
+    document.getElementById('infoOpponent').textContent = (state.situation === 'RFI') ? '해당 없음' : (state.opponent || '선택 안 됨');
+    document.getElementById('infoOpponent').className = state.opponent ? 'v' : 'v muted';
+    document.getElementById('infoStack').textContent = state.stack;
+
+    var gridStatus = document.getElementById('gridStatus');
+    var note = document.getElementById('strategyNote');
+
+    if(state.cell){
+      var label = state.cell.dataset.label;
+      var combos = state.cell.dataset.combos;
+      document.getElementById('infoHand').textContent = label;
+      document.getElementById('infoHand').className = 'v';
+      document.getElementById('infoCombo').textContent = combos + ' combos';
+      gridStatus.textContent = label + ' 선택됨';
+      renderCombos(label);
+
+      var posTxt = state.position || '포지션 미선택';
+      note.textContent = posTxt + ' · ' + sitLabel + ' · ' + state.stack + ' · ' + label + '에 대한 전략 데이터가 아직 없습니다. 데이터가 준비되는 대로 반영됩니다.';
+    } else {
+      document.getElementById('infoHand').textContent = '선택 안 됨';
+      document.getElementById('infoHand').className = 'v muted';
+      document.getElementById('infoCombo').textContent = '—';
+      gridStatus.textContent = '핸드를 선택해주세요';
+      renderCombos(null);
+      note.textContent = '검증된 GTO 전략 데이터가 연결되면 이곳에 Raise / Call / Fold 빈도와 EV가 표시됩니다.';
+    }
+  }
+
+  document.getElementById('clearBtn').addEventListener('click', function(){
+    if(state.cell) state.cell.classList.remove('selected');
+    state.cell = null;
+    state.position = null;
+    state.opponent = null;
+    document.getElementById('handSearch').value = '';
+    document.getElementById('searchMsg').textContent = '';
+    document.querySelectorAll('#positionGroup button').forEach(function(b){ b.classList.remove('active'); });
+    buildOpponentGroup();
+    renderInfo();
+  });
+
+  /* ---------- init ---------- */
+  buildGrid();
+  buildPositionGroup();
+  buildOpponentGroup();
+  setGroup('tableGroup', 'table', 'table', function(){
+    state.position = null;
+    state.opponent = null;
+    buildPositionGroup();
+    buildOpponentGroup();
+  });
+  setGroup('situationGroup', 'situation', 'situation', function(){
+    state.opponent = null;
+    buildOpponentGroup();
+  });
+  setGroup('stackGroup', 'stack', 'stack');
+  renderInfo();
+</script>
+
+</body>
+</html>
