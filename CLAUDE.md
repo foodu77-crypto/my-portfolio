@@ -11,6 +11,7 @@
 - `img/` — 4개 스타일이 공유하는 사진 폴더 (`visual.jpg`, `profile.jpg`, `project-1.jpg`, `project-2.jpg`, `project-3.jpg`)
 - `style-a-minimal.md`, `style-b-colorful.md`, `style-c-grid.md`, `style-d-dark.md` — 스타일별 색상·폰트·레이아웃 규칙 문서 (수정 전 반드시 확인)
 - `design-style.md` — 체크리스트, 수정해야 할 항목 정리, 스타일별 문서 링크
+- `project-plan.md` — JKPOKER 서비스 기획서
 
 ## 규칙
 
