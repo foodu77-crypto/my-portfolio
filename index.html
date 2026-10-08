@@ -11,7 +11,7 @@
   --dark:#141210; --line:rgba(23,21,18,.14);
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Pretendard',-apple-system,'Malgun Gothic',sans-serif;color:pink;background:var(--cream);line-height:1.6;word-break:keep-all}
+body{font-family:'Pretendard',-apple-system,'Malgun Gothic',sans-serif;color:#fff;background:var(--cream);line-height:1.6;word-break:keep-all}
 .shell{max-width:1320px;margin:0 auto;padding:0 5%}
 img{max-width:100%;display:block}
 a{color:inherit;text-decoration:none}
@@ -19,62 +19,62 @@ a{color:inherit;text-decoration:none}
 /* ---------- hero ---------- */
 .hero{position:relative;padding:50px 0 0;overflow:hidden}
 .hero-top{display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:700;letter-spacing:.14em}
-.hero-top .yr{display:flex;align-items:center;gap:8px}
+.hero-top .yr{display:flex;align-items:center;gap:10px}
 .masttitle{font-size:clamp(70px,11vw,160px);font-weight:800;letter-spacing:-.02em;line-height:.95;margin:70px 0 0;text-align:center}
 .hero-grid{display:grid;grid-template-columns:1fr 1fr;align-items:end;margin-top:10px}
 .hero-copy{padding-bottom:70px}
-.hero-copy .eyebrow{font-weight:800;font-size:13px;letter-spacing:.2em;color:pink;margin-bottom:10px}
+.hero-copy .eyebrow{font-weight:800;font-size:13px;letter-spacing:.2em;color:#fff;margin-bottom:10px}
 .hero-copy h2{font-size:30px;font-weight:800;letter-spacing:-.01em;line-height:1.25;margin-bottom:20px}
 .hero-copy .rule{width:70px;height:2px;background:var(--ink);margin-bottom:20px}
-.hero-copy p{font-size:14px;color:pink;max-width:320px;margin-bottom:30px}
-.hero-copy .name{font-weight:800;font-size:30px;letter-spacing:.02em;color:pink}
+.hero-copy p{font-size:16px;color:#fff;max-width:320px;margin-bottom:30px}
+.hero-copy .name{font-weight:800;font-size:30px;letter-spacing:.02em;color:#fff}
 .hero-photo .frame{aspect-ratio:3/4;border-radius:2px;overflow:hidden;background:#cfc8ba}
 .hero-photo .frame img{width:100%;height:100%;object-fit:cover}
 
 /* ---------- section shells ---------- */
 .sec-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:30px}
 .sec-head .lbl{font-size:12px;font-weight:800;letter-spacing:.2em;color:var(--gold-soft)}
-.sec-head a{font-size:11px;font-weight:700;letter-spacing:.08em;color:#cfc8ba;display:flex;align-items:center;gap:8px}
+.sec-head a{font-size:11px;font-weight:700;letter-spacing:.08em;color:#cfc8ba;display:flex;align-items:center;gap:10px}
 
 /* ---------- profile / info / career ---------- */
-.info-item{display:flex;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--line)}
-.info-item .lbl{font-size:13px;color:pink}
+.info-item{display:flex;justify-content:space-between;padding:15px 0;border-bottom:1px solid var(--line)}
+.info-item .lbl{font-size:13px;color:#fff}
 .info-item .val{font-size:15px;font-weight:700}
-.career-item{padding:13px 0;border-bottom:1px solid var(--line)}
-.career-item .yr{font-size:12px;font-weight:800;color:pink;display:block;margin-bottom:3px}
+.career-item{padding:15px 0;border-bottom:1px solid var(--line)}
+.career-item .yr{font-size:12px;font-weight:800;color:#fff;display:block;margin-bottom:5px}
 .career-item .org{font-size:15px;font-weight:700}
-.career-item .role{font-size:13px;color:pink;margin-left:8px}
+.career-item .role{font-size:13px;color:#fff;margin-left:10px}
 
 /* ---------- works ---------- */
 .works{background:var(--dark);color:#f2ede4;padding:100px 0}
 .works-empty{padding:60px 0;text-align:center;border:1px solid rgba(242,237,228,.14);border-radius:2px}
 .works-empty p{font-size:16px;font-weight:800;letter-spacing:.04em;color:#cfc8ba}
-.works-empty span{display:block;margin-top:8px;font-size:13px;font-weight:400;color:#8a8171}
+.works-empty span{display:block;margin-top:10px;font-size:13px;font-weight:400;color:#8a8171}
 
 /* ---------- skill / process / quote ---------- */
 .skill-sec{padding:40px 0 120px}
-.skill-sec .lbl{font-size:13px;font-weight:800;letter-spacing:.2em;color:pink}
+.skill-sec .lbl{font-size:13px;font-weight:800;letter-spacing:.2em;color:#fff}
 .skill-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.skill-card{background:#fff;padding:26px 22px}
+.skill-card{background:#fff;padding:25px 20px}
 .skill-card .k{font-size:11px;font-weight:800;letter-spacing:.1em;color:#a39c8d;margin-bottom:10px}
 .skill-card .v{font-size:18px;font-weight:800;word-break:keep-all;color:var(--ink)}
 
 /* ---------- info / career + quote ---------- */
 .mid{padding:100px 0}
 .mid-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:60px}
-.mid h4{font-size:12px;font-weight:800;letter-spacing:.16em;color:pink;margin-bottom:26px}
+.mid h4{font-size:12px;font-weight:800;letter-spacing:.16em;color:#fff;margin-bottom:25px}
 .quote-photo{position:relative;border-radius:3px;overflow:hidden;aspect-ratio:3/3.6;background:#b8ae98}
 .quote-photo img{width:100%;height:100%;object-fit:cover}
-.quote-box{position:absolute;left:20px;right:20px;bottom:20px;background:rgba(20,18,15,.78);padding:20px 22px;border-radius:2px}
+.quote-box{position:absolute;left:20px;right:20px;bottom:20px;background:rgba(20,18,15,.78);padding:20px;border-radius:2px}
 .quote-box p{color:#f2ede4;font-size:13.5px;font-weight:500;line-height:1.6}
 .quote-box .sig{margin-top:10px;font-size:11px;letter-spacing:.1em;color:var(--gold-soft);font-weight:800}
 
 /* ---------- board (dark, matching works) ---------- */
 .board{background:var(--dark);color:#f2ede4;padding:100px 0}
-.board-note{font-size:13px;color:#a39c8d;margin-bottom:28px;max-width:520px}
+.board-note{font-size:13px;color:#a39c8d;margin-bottom:30px;max-width:520px}
 .board-list{border-top:1px solid rgba(242,237,228,.14)}
-.board-row{display:flex;align-items:center;gap:18px;padding:20px 0;border-bottom:1px solid rgba(242,237,228,.14)}
-.board-row .bd{font-size:11px;font-weight:800;color:var(--dark);background:var(--gold-soft);padding:5px 12px;border-radius:2px;flex-shrink:0;letter-spacing:.04em}
+.board-row{display:flex;align-items:center;gap:20px;padding:20px 0;border-bottom:1px solid rgba(242,237,228,.14)}
+.board-row .bd{font-size:11px;font-weight:800;color:var(--dark);background:var(--gold-soft);padding:5px 10px;border-radius:2px;flex-shrink:0;letter-spacing:.04em}
 .board-row .bt{flex:1;font-size:15px;font-weight:700}
 .board-row .bm{font-size:12px;color:#8a8171;letter-spacing:.03em}
 
@@ -82,20 +82,20 @@ a{color:inherit;text-decoration:none}
 .contact{padding:100px 0}
 .contact-grid{display:grid;grid-template-columns:1fr 1.3fr;gap:60px}
 .contact-copy h2{font-size:30px;font-weight:800;line-height:1.35}
-.contact-copy p{font-size:14px;color:pink;margin-top:14px}
-.field-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.field{margin-bottom:16px}
-.field label{display:block;font-size:12px;font-weight:700;margin-bottom:6px;letter-spacing:.05em;color:pink}
-.field input, .field textarea{width:100%;border:0;border-bottom:1.5px solid var(--line);padding:12px 2px;font-family:inherit;font-size:14px;background:transparent}
+.contact-copy p{font-size:16px;color:#fff;margin-top:15px}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.field{margin-bottom:15px}
+.field label{display:block;font-size:12px;font-weight:700;margin-bottom:5px;letter-spacing:.05em;color:#fff}
+.field input, .field textarea{width:100%;border:0;border-bottom:1.5px solid var(--line);padding:10px 2px;font-family:inherit;font-size:16px;background:transparent}
 .field input:focus, .field textarea:focus{outline:none;border-color:var(--primary)}
-.submit-btn{background:var(--ink);color:pink;font-size:13px;font-weight:800;letter-spacing:.05em;padding:14px 26px;border:0;border-radius:2px;cursor:pointer}
+.submit-btn{background:var(--ink);color:#fff;font-size:13px;font-weight:800;letter-spacing:.05em;padding:14px 25px;min-height:44px;border:0;border-radius:2px;cursor:pointer}
 .submit-btn:hover{background:var(--primary)}
 
 /* ---------- footer ---------- */
 footer{background:var(--dark);color:#f2ede4;padding:80px 0}
 .foot-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr auto;gap:40px;align-items:start}
 footer h2{font-weight:800;font-size:26px;color:var(--gold-soft);line-height:1.3}
-.foot-col h5{font-size:11px;font-weight:800;letter-spacing:.14em;color:var(--gold-soft);margin-bottom:16px}
+.foot-col h5{font-size:11px;font-weight:800;letter-spacing:.14em;color:var(--gold-soft);margin-bottom:15px}
 .foot-col div{font-size:13px;color:#cfc8ba;margin-bottom:10px}
 .foot-mono{font-weight:800;font-size:26px;color:var(--gold-soft);align-self:center}
 
@@ -103,9 +103,20 @@ footer h2{font-weight:800;font-size:26px;color:var(--gold-soft);line-height:1.3}
   .hero-grid{grid-template-columns:1fr}
   .hero-photo{margin-top:30px}
   .skill-grid{grid-template-columns:repeat(2,1fr)}
-  .mid-grid{grid-template-columns:1fr;gap:36px}
+  .mid-grid{grid-template-columns:1fr;gap:35px}
   .contact-grid{grid-template-columns:1fr;gap:30px}
   .foot-grid{grid-template-columns:1fr 1fr;gap:30px}
+}
+
+/* ---------- 모바일 퍼스트 보강 (375px 폴드 대응) ---------- */
+.mobile-cta{display:none;position:fixed;left:0;right:0;bottom:0;z-index:50;padding:10px 5%;background:var(--cream);border-top:1px solid var(--line)}
+.mobile-cta a{display:flex;align-items:center;justify-content:center;height:52px;background:var(--ink);color:#fff;font-weight:800;letter-spacing:.05em;font-size:14px;border-radius:2px}
+
+@media(max-width:767px){
+  .masttitle{font-size:clamp(32px,13vw,70px);margin-top:40px}
+  .skill-grid{grid-template-columns:1fr}
+  .mobile-cta{display:block}
+  body{padding-bottom:75px}
 }
 </style>
 </head>
@@ -124,7 +135,7 @@ footer h2{font-weight:800;font-size:26px;color:var(--gold-soft);line-height:1.3}
         <h2>POKER<br>SOFTWARE</h2>
         <div class="rule"></div>
         <p>포커 티칭 웹사이트</p>
-        <div class="name">JKPOKER</div>
+        <div class="name">김지훈</div>
       </div>
       <div class="hero-photo">
         <div class="frame"><img src="img/profile.jpg" alt=""></div>
@@ -153,7 +164,7 @@ footer h2{font-weight:800;font-size:26px;color:var(--gold-soft);line-height:1.3}
       <div class="info-item"><span class="lbl">과정</span><span class="val">바이브코딩 풀스택</span></div>
       <div class="info-item"><span class="lbl">이메일</span><span class="val">hello@example.com</span></div>
 
-      <h4 style="margin-top:56px">경력 · 학력</h4>
+      <h4 style="margin-top:55px">경력 · 학력</h4>
       <div class="career-item"><span class="yr">2026 — 현재</span><span class="org">SBSART GANGNAM</span><span class="role">바이브코딩 풀스택 과정</span></div>
       <div class="career-item"><span class="yr">2025</span><span class="org">OO대학교</span><span class="role">시각디자인학과 졸업</span></div>
       <div class="career-item"><span class="yr">2025</span><span class="org">정보처리기능사</span><span class="role">자격 취득</span></div>
@@ -200,7 +211,7 @@ footer h2{font-weight:800;font-size:26px;color:var(--gold-soft);line-height:1.3}
 <section class="contact">
   <div class="shell contact-grid">
     <div class="contact-copy">
-      <div class="eyebrow" style="font-weight:800;font-size:13px;letter-spacing:.2em;color:pink;margin-bottom:14px">CONTACT</div>
+      <div class="eyebrow" style="font-weight:800;font-size:13px;letter-spacing:.2em;color:#fff;margin-bottom:15px">CONTACT</div>
       <h2>함께 좋은<br>프로젝트를<br>만들어요.</h2>
       <p>프로젝트 또는 협업 문의를 남겨주세요.<br>빠르게 답변드리겠습니다.</p>
     </div>
@@ -232,6 +243,8 @@ footer h2{font-weight:800;font-size:26px;color:var(--gold-soft);line-height:1.3}
     <div class="foot-mono">KJ</div>
   </div>
 </footer>
+
+<div class="mobile-cta"><a href="#contact">연락하기 →</a></div>
 
 </body>
 </html>
